@@ -27,6 +27,7 @@ int main(int argc, char **argv)
 
     if(rank == 0) printf("    Bytes \t     Time \t    Latency \t    Bandwidth\n");
 
+    // n is used to allocate different size of data to send/recv
     for(n = 1; n <= 1000000; n*=10){
 
         val = (double*)malloc(n*sizeof(double));
@@ -34,7 +35,7 @@ int main(int argc, char **argv)
             val[i] = i+1;
         }
 
-        /* latency check */
+        /* latency check, sends 1 byte of data */
         latency = 0;
         for(i = 0; i < 50; i++){
             if(rank == 0){
@@ -52,6 +53,7 @@ int main(int argc, char **argv)
         }
         latency /= 50;
 
+        /* bandwidth check */
         int PING_PONG_COUNT = 0, tag = 0;
         elapsedtime = 0;
         while(PING_PONG_COUNT < PING_PONG_LIMIT){
